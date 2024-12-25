@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}高校列表 - 高校信息{% endblock %}
+
+{% block content %}
+<div class="schools-list">
+    <h1>高校列表</h1>
+    
+    <!-- 筛选表单 -->
+    <div class="filter-form">
+        <form method="get" action="{{ url_for('index') }}">
+            <!-- 添加搜索框 -->
+            <div class="search-box">
+                <input type="text" name="keyword" placeholder="搜索学校名称..." 
+                       value="{{ selected_keyword }}" class="search-input">
+            </div>
+            
+            <select name="location">
+                <option value="">所有地区</option>
+                {% for location in locations %}
+                <option value="{{ location }}" {% if location == selected_location %}selected{% endif %}>
+                    {{ location }}
+                </option>
+                {% endfor %}
+            </select>
+            
+            <select name="department">
+                <option value="">所有主管部门</option>
+                {% for department in departments %}
+                <option value="{{ department }}" {% if department == selected_department %}selected{% endif %}>
+                    {{ department }}
+                </option>
+                {% endfor %}
+            </select>
+            
+            <button type="submit" class="btn">筛选</button>
+            {% if selected_location or selected_department or selected_keyword %}
+            <a href="{{ url_for('index') }}" class="btn btn-clear">清除筛选</a>
+            {% endif %}
+        </form>
+    </div>
+    
+    <!-- 学校列表 -->
+    <div class="schools-grid">
+        {% for school in schools %}
+        <div class="school-card">
+            <h2>{{ school.school_name }}</h2>
+            <p>所在地：{{ school.location }}</p>
+            <p>主管部门：{{ school.department }}</p>
+            <p>办学层次：{{ school.education_level }}</p>
+            <a href="{{ url_for('school_detail', school_name=school.school_name) }}" class="btn">查看详情</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

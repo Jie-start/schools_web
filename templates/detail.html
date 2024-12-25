@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ school.school_name }} - 高校信息{% endblock %}
+
+{% block content %}
+<div class="school-detail">
+    <!-- 返回按钮 -->
+    <a href="{{ url_for('index') }}" class="btn btn-back">
+        <span class="back-arrow">←</span> 返回列表
+    </a>
+    
+    <!-- 学校名称 -->
+    <h1>{{ school.school_name }}</h1>
+    
+    <!-- 基本信息卡片 -->
+    <div class="info-card">
+        <h2>基本信息</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <label>所在地</label>
+                <span>{{ school.location }}</span>
+            </div>
+            <div class="info-item">
+                <label>主管部门</label>
+                <span>{{ school.department }}</span>
+            </div>
+            <div class="info-item">
+                <label>办学层次</label>
+                <span>{{ school.education_level }}</span>
+            </div>
+            <div class="info-item">
+                <label>学校特性</label>
+                <span>{{ school.school_type }}</span>
+            </div>
+            <div class="info-item">
+                <label>满意度</label>
+                <span>{{ school.satisfaction }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 学校简介 -->
+    <div class="intro-card">
+        <h2>学校简介</h2>
+        <div class="intro-content">
+            {% if school.introduction %}
+                {% for paragraph in school.introduction.split('\n') %}
+                    {% if paragraph %}
+                        <p>{{ paragraph }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p class="no-content">暂无简介信息</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- 更新时间 -->
+    <div class="update-time">
+        最后更新时间：{{ school.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}
+    </div>
+</div>
+{% endblock %} 
